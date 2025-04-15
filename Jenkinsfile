@@ -3,11 +3,7 @@ pipeline{
     agent any  
     
     environment {
-        // Sonar
-        SONAR_SCANNER_HOME = tool 'sonar7.1'
-        // Nexus
-        NEXUS_URL = '54.227.80.162:8081'
-
+        SONAR_SCANNER_HOME = tool 'sonar7.1' 
     }
     // tools : các tools mà pipline sẽ sử dụng trong các steps
     tools {
@@ -29,9 +25,8 @@ pipeline{
                 sh 'mvn test'
             }
         }
-
-
-        stage('SonarQube Analysis') {
+        
+         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar') { // Tên server đã khai báo ở trong system
                     sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner \
@@ -42,7 +37,7 @@ pipeline{
             }
         }
 
-        stage('Build') {
+        stage('Build'){
             steps{
                 sh 'mvn install -DskipTests'
             }
@@ -55,13 +50,13 @@ pipeline{
             }
         }
 
-        //Upload artifact lên Nexus
+       
         stage('Upload artifact'){
           steps{
               nexusArtifactUploader(
                 nexusVersion: 'nexus3',
                 protocol: 'http',
-                nexusUrl: '${NEXUS_URL}',
+                nexusUrl: '172.31.29.76:8081',
                 groupId: 'com.InkDevops',
                 version: "${env.BUILD_ID}",
                 repository: 'Vprofile-repo',
