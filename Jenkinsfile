@@ -64,7 +64,7 @@ pipeline{
                 protocol: 'http',
                 nexusUrl: '172.31.29.76:8081',
                 groupId: 'com.InkDevops',
-                version: "${env.BUILD_ID}",
+                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
                 repository: 'Vprofile-repo',
                 credentialsId: 'nexus-credentials',
                 artifacts: [
