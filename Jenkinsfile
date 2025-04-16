@@ -43,6 +43,16 @@ pipeline{
             }
         }
 
+        stage('Quanlity Gate Sonar'){
+            steps {
+                // Giới hạn thời gian thực thi :10p => nếu quá build -> FALSE
+                timeout(time: 10, unit: 'MINUTES') {
+                    // Nếu kết quả QuanlityGate k đủ tiêu chuẩn => build -> FALSE
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Build'){
             steps{
                 sh 'mvn install -DskipTests'
