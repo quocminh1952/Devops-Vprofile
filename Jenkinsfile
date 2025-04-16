@@ -1,3 +1,9 @@
+def COLOR_MAP = [
+    'SUCCESS' : 'good',
+    'FAILUE' : 'danger',
+    'ABORTED': 'warning',
+]
+
 pipeline{ 
     // Agent chỉ định nơi pipeline sẽ chạy
     agent any  
@@ -69,7 +75,18 @@ pipeline{
                 ]
             )
           }
-        }
+        } 
+    }
 
+    // post sau khi pipeline hoàn thành
+    post {
+        // always : luôn thực thi dù job có success hay false
+        always {
+            //Add channel name
+            slackSend channel: '#devopscicd',
+            // currentBuild.currenResult = trạng thái trả về sau khi build
+            color: COLOR_MAP[currentBuild.currenResult]
+            message: "Find Status of Pipeline:- ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_NUMBER} ${BUILD_URL}"
+        }
     }
 }
