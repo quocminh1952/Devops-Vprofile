@@ -99,7 +99,7 @@ pipeline{
             steps{
                 script{
                     // docker.build(image_name, [context_path])
-                    dockerImage = docker.build( ECR_REGISTRY + IMAGE_TAG, "./Dockerfile")
+                    dockerImage = docker.build( "${ECR_REGISTRY}:${IMAGE_TAG}")
                 }
             }
         }
@@ -116,8 +116,8 @@ pipeline{
 
             post {
                 always {
-                    sh 'docker rmi ${ECR_REGISTRY}:${BUILD_NUMBER} || true' // Xóa image sau khi đẩy
-                    sh 'docker rmi ${ECR_REGISTRY}:latest || true' // Xóa image tag latest
+                    sh "docker rmi ${ECR_REGISTRY}:${IMAGE_TAG} || true" // Xóa image sau khi đẩy
+                    sh "docker rmi ${ECR_REGISTRY}:latest || true" // Xóa image tag latest
                 }
             }   
         }
