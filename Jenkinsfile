@@ -27,7 +27,7 @@ pipeline{
         // giai đoạn 1 : Fetch code
         stage('Fetch code'){
             steps{
-                git url: 'https://github.com/hkhcoder/vprofile-project.git', branch: 'docker' 
+                git url: 'https://github.com/quocminh1952/Devops-Vprofile.git', branch: 'CI-Docker-AWS_ECR' 
             }
         }
 
